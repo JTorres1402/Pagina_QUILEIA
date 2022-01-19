@@ -1,0 +1,72 @@
+<div class="modal modal-sheet position-static d-block " tabindex="-1" role="dialog" id="modalSheet">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-6 shadow p-2">
+            <form (ngSubmit)="add_red()">
+                <div class="modal-header border-bottom-0 m-2">
+                    <h5 class="modal-title">Agregar dispositivo</h5>
+                </div>
+                <div class="modal-body m-2">   
+                              
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="floatingSelect" name="tipo" [(ngModel)]="red.tipo" #tipored="ngModel" required>
+                            <option *ngFor="let n of listared">{{ n }}</option>
+                        </select>
+                        <label for="">Tipo de red</label>
+                    </div>
+                    <div *ngIf="tipored.touched && !tipored.valid">                
+                        <div class="alert alert-danger" role="alert">
+                            Debes seleccionar tipo de red
+                        </div>  
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="nombre" placeholder="Nombre" [(ngModel)]="red.nombre" #nombrered="ngModel" minlength="4" required>
+                        <label for="">Nombre</label>
+                    </div>
+                    <div *ngIf="nombrered.touched && !nombrered.valid">                
+                        <div class="alert alert-danger" role="alert">
+                            El nombre debe tener mínimo 4 caracteres
+                        </div>  
+                    </div>
+    
+                    <div class="form-floating mb-3" *ngIf="red.tipo=='Wifi'" >
+                        <select class="form-select mb-3" id="floatingSelect" name="cifrado" [(ngModel)]="red.cifrado" #tipocifrado="ngModel" required>
+                            <option *ngFor="let n of listacifrado">{{ n }}</option>
+                        </select>
+                        <label for="">Tipo de cifrado</label>
+                        <div class="" *ngIf="tipocifrado.touched && !tipocifrado.valid">                
+                            <div class="alert alert-danger" role="alert">
+                                Dedes seleccionar el tipo de cifrado
+                            </div>  
+                        </div>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="ip" placeholder="direccion ip" [(ngModel)]="red.ip" #ipred="ngModel" minlength="6" maxlength="15" required>
+                        <label for="">Direccion IP</label>
+                    </div>
+                    <div *ngIf="ipred.touched && !ipred.valid">                
+                        <div class="alert alert-danger" role="alert">
+                            Ingrese direccion ip con punto
+                        </div>  
+                    </div>
+    
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" name="pass" placeholder="contraseña" [(ngModel)]="red.pass" #passred="ngModel" required>
+                        <label for="">Contraseña</label>
+                    </div>
+    
+                    <div *ngIf="passred.touched && !passred.valid">                
+                        <div class="alert alert-danger" role="alert">
+                            Ingrese la contraseña
+                        </div>  
+                    </div>
+                </div>
+                <div class=" border-top-0 mb-4 m-4">
+                    <button [disabled]="!tipored.valid || !nombrered.valid  || !ipred.valid || !passred.valid" class="btn btn-lg btn-primary mx-5">Guardar</button>
+                    <button routerLink="" class="btn btn-lg btn-danger mx-5">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="container py-2">
+    <a routerLink="" class="btn btn-primary">Volver</a>
+</div>
+
+<div class="container">
+    <div class="bg-light rounded-3">
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Tipo de red</th>
+                    <th scope="col">Tipo de cifrado</th>
+                    <th scope="col">Direccion IP</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let red of redes">
+                    <th>{{red.id}}</th>
+                    <td>{{red.nombre}}</td>
+                    <td>{{red.tipo}}</td>
+                    <td>{{red.cifrado}}</td>
+                    <td>{{red.ip}}</td>
+                    <td><button (click)="deleteRed(red.id)" type="button" class="btn btn-danger">Eliminar</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>

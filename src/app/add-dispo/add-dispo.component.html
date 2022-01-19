@@ -1,0 +1,40 @@
+<div class="modal modal-sheet position-static d-block" tabindex="-1" role="dialog" id="modalSheet">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-6 shadow p-2">
+            <form (ngSubmit)="add_dispositivo()">
+                <div class="modal-header border-bottom-0 m-2">
+                    <h5 class="modal-title">Agregar dispositivo</h5>
+                </div>
+                <div class="modal-body m-2">
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" name="mac" placeholder="mac" [(ngModel)]="dispositivos.mac" #mac="ngModel" minlength="12" maxlength="12" required>
+                        <label for="floatingInput">MAC</label>
+                    </div>
+                    <div *ngIf="mac.touched && !mac.valid">                
+                        <div class="alert alert-danger" role="alert">
+                            Debes ingresar 12 caracteres
+                        </div>  
+                    </div>                 
+    
+                    <div class="form-floating mb-2">
+                        <select class="form-select" id="tipo" name="tipo" [(ngModel)]="dispositivos.tipo" #dispo="ngModel" required>
+                            <option value="Computador">Computador</option>
+                            <option value="Smartphone">Smartphone</option>
+                            <option value="Tablet">Tablet</option>
+                        </select>
+                        <label for="">Tipo de dispositivo</label>
+                    </div>
+                    <div *ngIf="dispo.touched && !dispo.valid">                
+                        <div class="alert alert-danger" role="alert">
+                            Debes seleccionar tipo de dispositivo
+                        </div>  
+                    </div>
+                </div>
+                <div class="border-top-0 m-4">
+                    <button [disabled]="!mac.valid || !dispo.valid" class="btn btn-lg btn-primary mx-5">Guardar</button>
+                    <button routerLink="" class="btn btn-lg btn-danger mx-5">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

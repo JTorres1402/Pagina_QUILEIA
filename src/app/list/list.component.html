@@ -1,0 +1,130 @@
+<div class="container py-4">
+    <div class="bg-light rounded-3">
+        <table class="table table-bordered">
+            <thead class="text-center table-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Dispositivo</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">IP</th>
+                    <th scope="col">Accion</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let dispositivo of dispositivos" class="text-center">
+                    <th>{{dispositivo.id}}</th>
+                    <td>{{dispositivo.tipo}}</td>
+                    <td>
+                        <div *ngIf="dispositivo.conexion == '0' ; else menor">
+                            Desconectado
+                        </div>
+                        <ng-template #menor>Conectado a la red {{dispositivo.conexion}}</ng-template>
+                    </td>
+                    <td>{{dispositivo.ip}}</td>
+                    <td>
+                        <div *ngIf="dispositivo.conexion == '0'; else menr">
+                            <button (click)="openPopup(dispositivo.id)" type="button"
+                                class="btn btn-success">Conectar</button>
+                        </div>
+                        <ng-template #menr><button (click)="openModel(dispositivo.id)" type="button"
+                                class="btn btn-danger">Desconectar</button></ng-template>
+                    </td>
+                    <td><button (click)="deleteDispositivo(dispositivo.id)" type="button"
+                            class="btn btn-danger">Eliminar</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Conectar a red</h4>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="enviar()">
+                    <div class="form-floating mb-3">
+                        <select class="form-select mb-3" name="conexion" placeholder="Nombre"
+                            [(ngModel)]="dispositivo.conexion" id="floatingSelect" #conex="ngModel" required>
+                            <option *ngFor="let n of redes">
+                                <div *ngIf="n.conexion < 3">
+                                    {{ n.nombre }}
+                                </div>
+                            </option>
+                        </select>
+                        <label for="">Conexiones disponibles</label>
+                    </div>
+
+                    <input hidden type="text" name="estado" [(ngModel)]="dispositivo.conexion">
+                    <input hidden type="text" name="mac" [(ngModel)]="dispositivo.mac">
+                    <input hidden type="text" name="tipo" [(ngModel)]="dispositivo.tipo">
+
+                    <div class="" *ngIf="conex.touched && !conex.valid">
+                        <div class="alert alert-danger" role="alert">
+                            Debe escoger una red
+                        </div>
+                    </div>
+
+                    <div>
+                        <button [disabled]="!conex.valid" type="button" class="btn btn-primary"
+                            (click)="enviar()">Conectar</button>
+                        <button type="button" class="btn btn-danger" (click)="closePopup()">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display': model}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Desconectar de la red</h4>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="actualizar()">
+                    <div class="form-floating mb-3">
+                        <select class="form-select mb-3" name="conexion" [(ngModel)]="dispositivo.conexion"
+                            id="floatingSelect" #conexi="ngModel" value="0" required>
+                            <option value="0" selected>Desconectar de la red</option>
+                        </select>
+                        <label for="">Accion</label>
+                    </div>
+
+                    <input hidden type="text" name="estado" [(ngModel)]="dispositivo.conexion">
+                    <input hidden type="text" name="mac" [(ngModel)]="dispositivo.mac">
+                    <input hidden type="text" name="tipo" [(ngModel)]="dispositivo.tipo">
+
+                    <div class="" *ngIf="conex.touched ">
+                        <div class="alert alert-danger" role="alert">
+                            Debe escoger una accion
+                        </div>
+                    </div>
+
+                    <div *ngIf="dispositivo.conexion != '0'else boton">
+                        <button disabled type="button" class="btn btn-primary" (click)="enviar()">Desconectar</button>
+                        <button type="button" class="btn btn-danger" (click)="closePopup()">Cancelar</button>
+                    </div>
+                    <ng-template #boton>
+                        <button type="button" class="btn btn-primary" (click)="enviar()">Desconectar</button>
+                        <button type="button" class="btn btn-danger" (click)="closePopup()">Cancelar</button>
+                    </ng-template>
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>
